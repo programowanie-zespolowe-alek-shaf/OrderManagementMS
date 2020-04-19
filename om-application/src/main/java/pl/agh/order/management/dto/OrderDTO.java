@@ -15,14 +15,12 @@ public class OrderDTO {
     @FutureOrPresent
     private LocalDate shipDate;
     private Order.Status status = Order.Status.PLACED;
-    private Boolean complete = false;
 
     public Order toEntity() {
         return Order.builder()
                 .shoppingCardId(shoppingCardId)
                 .shipDate(shipDate)
                 .status(status)
-                .complete(complete)
                 .build();
     }
 }
