@@ -11,6 +11,25 @@
     </parent>
 
     <artifactId>om-application</artifactId>
+    <profiles>
+        <profile>
+            <id>localhost</id>
+            <properties>
+                <profile.name>localhost</profile.name>
+                <mysql.datasource.url>jdbc:mysql://localhost:3306/customer?autoReconnect=true&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</mysql.datasource.url>
+                <mysql.datasource.username>customer</mysql.datasource.username>
+                <mysql.datasource.password>customer</mysql.datasource.password>
+                <mysql.datasource.hibernate.dialect>org.hibernate.dialect.MySQL5Dialect
+                </mysql.datasource.hibernate.dialect>
+                <db.connection-properties/>
+                <db.user>customer</db.user>
+                <db.password>customer</db.password>
+                <db.validation-query>SELECT 1</db.validation-query>
+                <db.url>jdbc:mysql://localhost:3306/customer?autoReconnect=true&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</db.url>
+                <db.driver-class-name>com.mysql.jdbc.Driver</db.driver-class-name>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -66,6 +85,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,5 +100,17 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

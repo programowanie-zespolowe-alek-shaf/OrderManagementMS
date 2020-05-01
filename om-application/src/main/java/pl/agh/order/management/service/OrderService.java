@@ -1,6 +1,8 @@
 package pl.agh.order.management.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.agh.order.management.dto.OrderDTO;
 import pl.agh.order.management.entity.Order;
@@ -44,5 +46,15 @@ public class OrderService {
         Order order = orderOptional.get();
         orderRepository.delete(order);
         return order;
+    }
+
+    public String getCurrentUserName() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 }
