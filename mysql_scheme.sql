@@ -1,9 +1,9 @@
-CREATE SCHEMA IF NOT EXISTS customer;
+CREATE SCHEMA IF NOT EXISTS orders;
 
-create user 'customer'@'%' identified by 'customer';
-grant all on customer.* to 'customer'@'%';
+create user 'orders'@'%' identified by 'orders';
+grant all on orders.* to 'orders'@'%';
 
-USE customer;
+USE orders;
 
 CREATE TABLE user_order
 (

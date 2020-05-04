@@ -1,5 +1,6 @@
 package pl.agh.order.management.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
@@ -9,6 +10,10 @@ import org.springframework.security.config.annotation.method.configuration.Globa
         prePostEnabled = true,
         securedEnabled = true,
         jsr250Enabled = true)
-public class MethodSecurityConfig
-        extends GlobalMethodSecurityConfiguration {
+public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+
+    @Bean
+    public JwtConfig jwtConfig() {
+        return new JwtConfig();
+    }
 }

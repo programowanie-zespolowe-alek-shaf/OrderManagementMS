@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "user_order", schema = "customer")
+@Table(name = "user_order", schema = "orders")
 public class Order implements Comparable<Order> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
