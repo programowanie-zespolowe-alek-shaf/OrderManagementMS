@@ -14,13 +14,17 @@ public class OrderDTO {
     @NotNull
     @FutureOrPresent
     private LocalDate shipDate;
+    @NotNull
     private Order.Status status = Order.Status.PLACED;
+    @NotNull
+    private String address;
 
     public Order toEntity() {
         return Order.builder()
                 .shoppingCardId(shoppingCardId)
                 .shipDate(shipDate)
                 .status(status)
+                .address(address)
                 .build();
     }
 }

@@ -33,6 +33,10 @@ public class Order implements Comparable<Order> {
     @Column(name = "status")
     private Status status;
 
+    @NotNull
+    @Column(name = "address")
+    private String address;
+
     @Override
     public int compareTo(Order o) {
         return this.id.compareTo(o.getId());

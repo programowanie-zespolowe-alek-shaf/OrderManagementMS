@@ -109,6 +109,20 @@ class OrderControllerTest {
     }
 
     @Test
+    void addOrderWithNullAddress() throws Exception {
+
+        OrderDTO orderDTO = getOrderDTO();
+        orderDTO.setAddress(null);
+
+        mvc.perform(post("/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("error")
+                        .value("address=[null] -> must not be null"));
+    }
+
+    @Test
     void addOrderWithoutShoppingCardId() throws Exception {
 
         OrderDTO orderDTO = getOrderDTO();
@@ -188,7 +202,8 @@ class OrderControllerTest {
     private OrderDTO getOrderDTO() {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setShoppingCardId(1L);
-        orderDTO.setShipDate(LocalDate.of(2020, 5, 13));
+        orderDTO.setShipDate(LocalDate.now());
+        orderDTO.setAddress("Cecilia Chapman 711-2880 Nulla St. Mankato Mississippi 96522");
         return orderDTO;
     }
 }

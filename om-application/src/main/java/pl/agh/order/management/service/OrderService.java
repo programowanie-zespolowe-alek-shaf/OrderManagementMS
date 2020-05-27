@@ -49,6 +49,7 @@ public class OrderService {
     }
 
     public String getCurrentUserName() {
+        // TODO This method is never used.
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails) {
