@@ -14,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import pl.agh.order.management.dto.ListResponse;
 import pl.agh.order.management.dto.OrderDTO;
 import pl.agh.order.management.entity.Order;
 import pl.agh.order.management.repository.OrderRepository;
@@ -44,12 +45,15 @@ class OrderControllerTest {
 
     @Test
     void getAllOrders() throws Exception {
-        MvcResult mvcResult = mvc.perform(get("/orders"))
+        MvcResult mvcResult = mvc.perform(get("/orders")
+                .param("offset", "0")
+                .param("limit", "10"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         MockHttpServletResponse response = mvcResult.getResponse();
-        Order[] orders = objectMapper.readValue(response.getContentAsString(), Order[].class);
+        ListResponse ordersList = objectMapper.readValue(response.getContentAsString(), ListResponse.class);
+        Order[] orders = objectMapper.readValue(objectMapper.writeValueAsString(ordersList.getList()), Order[].class);
         assertThat(asList(orders)).containsExactlyInAnyOrderElementsOf(orderRepository.findAll());
     }
 

@@ -1,13 +1,14 @@
 package pl.agh.order.management.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import pl.agh.order.management.dto.ListResponse;
+import pl.agh.order.management.dto.ListUtil;
 import pl.agh.order.management.dto.OrderDTO;
 import pl.agh.order.management.entity.Order;
 import pl.agh.order.management.repository.OrderRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +21,10 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public Iterable<Order> findAll() {
-        return orderRepository.findAll();
+    public ListResponse findAll(int limit, int offset) {
+        List<Order> orders = orderRepository.findAll();
+        orders = ListUtil.clampedSublist(orders, limit, offset);
+        return new ListResponse(orders, orders.size());
     }
 
     public Order add(OrderDTO order) {
@@ -40,22 +43,11 @@ public class OrderService {
 
     public Order delete(Long id) {
         Optional<Order> orderOptional = orderRepository.findById(id);
-        if (!orderOptional.isPresent()) {
+        if (orderOptional.isEmpty()) {
             return null;
         }
         Order order = orderOptional.get();
         orderRepository.delete(order);
         return order;
-    }
-
-    public String getCurrentUserName() {
-        // TODO This method is never used.
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
     }
 }

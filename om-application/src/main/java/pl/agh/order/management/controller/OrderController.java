@@ -33,8 +33,8 @@ public class OrderController {
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllOrders() {
-        return ResponseEntity.ok(orderService.findAll());
+    public ResponseEntity<?> getAllOrders(@RequestParam int limit, @RequestParam int offset) {
+        return ResponseEntity.ok(orderService.findAll(limit, offset));
     }
 
     @GetMapping(value = "{id}", produces = APPLICATION_JSON_VALUE)
