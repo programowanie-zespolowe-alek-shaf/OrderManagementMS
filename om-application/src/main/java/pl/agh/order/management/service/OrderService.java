@@ -23,8 +23,9 @@ public class OrderService {
 
     public ListResponse findAll(int limit, int offset) {
         List<Order> orders = orderRepository.findAll();
+        int count = orders.size();
         orders = ListUtil.clampedSublist(orders, limit, offset);
-        return new ListResponse(orders, orders.size());
+        return new ListResponse(orders, count);
     }
 
     public Order add(OrderDTO order) {
