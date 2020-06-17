@@ -27,6 +27,7 @@ import pl.agh.order.management.rest.MicroService;
 import pl.agh.order.management.rest.RestClient;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
@@ -58,19 +59,19 @@ class OrderControllerTest {
     private final Map<String, Object> shoppingCardTwo = ImmutableMap.of("id", 2, "username", "john");
     private final Map<String, Object> shoppingCardThree = ImmutableMap.of("id", 3, "username", "kate");
 
-    private final Map<String, Object> transactionOne = ImmutableMap.of("id", 1, "amount", 123.3);
-    private final Map<String, Object> transactionTwo = ImmutableMap.of("id", 2, "amount", 543.1);
-    private final Map<String, Object> transactionThree = ImmutableMap.of("id", 3, "amount", 772.2);
+    private final List<Map<String, Object>> transactionOne = List.of(ImmutableMap.of("id", 1, "amount", 123.3));
+    private final List<Map<String, Object>> transactionTwo = List.of(ImmutableMap.of("id", 2, "amount", 543.1));
+    private final List<Map<String, Object>> transactionThree = List.of(ImmutableMap.of("id", 3, "amount", 772.2));
 
     @BeforeEach
     void setUp() {
-        Mockito.when(restClient.get(MicroService.CART_MS, "/shoppingCard/1", Map.class)).thenReturn(shoppingCardOne);
-        Mockito.when(restClient.get(MicroService.CART_MS, "/shoppingCard/2", Map.class)).thenReturn(shoppingCardTwo);
-        Mockito.when(restClient.get(MicroService.CART_MS, "/shoppingCard/3", Map.class)).thenReturn(shoppingCardThree);
+        Mockito.when(restClient.get(MicroService.CART_MS, "/shoppingCards/1", Map.class)).thenReturn(shoppingCardOne);
+        Mockito.when(restClient.get(MicroService.CART_MS, "/shoppingCards/2", Map.class)).thenReturn(shoppingCardTwo);
+        Mockito.when(restClient.get(MicroService.CART_MS, "/shoppingCards/3", Map.class)).thenReturn(shoppingCardThree);
 
-        Mockito.when(restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/1", Map.class)).thenReturn(transactionOne);
-        Mockito.when(restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/2", Map.class)).thenReturn(transactionTwo);
-        Mockito.when(restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/3", Map.class)).thenReturn(transactionThree);
+        Mockito.when(restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/1", List.class)).thenReturn(transactionOne);
+        Mockito.when(restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/2", List.class)).thenReturn(transactionTwo);
+        Mockito.when(restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/3", List.class)).thenReturn(transactionThree);
     }
 
     @Test

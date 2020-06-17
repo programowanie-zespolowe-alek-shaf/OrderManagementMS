@@ -68,23 +68,23 @@ public class OrderService {
         }
         Long shoppingCardId = order.getShoppingCardId();
         Map<String, Object> shoppingCard = getShoppingCard(shoppingCardId);
-        Map<String, Object> transaction = getTransaction(shoppingCardId);
-        return new OrderResponseDTO(order, shoppingCard, transaction);
+        var transactions = getTransactions(shoppingCardId);
+        return new OrderResponseDTO(order, shoppingCard, transactions);
     }
 
     private Map<String, Object> getShoppingCard(Long id) {
         try {
             //noinspection unchecked
-            return restClient.get(MicroService.CART_MS, "/shoppingCard/" + id, Map.class);
+            return restClient.get(MicroService.CART_MS, "/shoppingCards/" + id, Map.class);
         } catch (HttpClientErrorException.NotFound e) {
             return null;
         }
     }
 
-    private Map<String, Object> getTransaction(Long shoppingCardId) {
+    private List<Map<String, Object>> getTransactions(Long shoppingCardId) {
         try {
             //noinspection unchecked
-            return restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/" + shoppingCardId, Map.class);
+            return restClient.get(MicroService.PAYMENT_MS, "/transaction/shoppingCardID/" + shoppingCardId, List.class);
         } catch (HttpClientErrorException.NotFound e) {
             return null;
         }

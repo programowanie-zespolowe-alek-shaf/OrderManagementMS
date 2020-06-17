@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import pl.agh.order.management.entity.Order;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -17,9 +19,9 @@ public class OrderResponseDTO {
     private Order.Status status;
     private String address;
     private Map<String, Object> shoppingCard = new HashMap<>();
-    private Map<String, Object> transaction = new HashMap<>();
+    private List<Map<String, Object>> transaction = new ArrayList<>();
 
-    public OrderResponseDTO(Order order, Map<String, Object> shoppingCard, Map<String, Object> transaction) {
+    public OrderResponseDTO(Order order, Map<String, Object> shoppingCard, List<Map<String, Object>> transaction) {
         id = order.getId();
         shoppingCardId = order.getShoppingCardId();
         shipDate = order.getShipDate();
