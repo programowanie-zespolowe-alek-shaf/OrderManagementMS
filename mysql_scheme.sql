@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS orders;
 
-create user 'orders'@'%' identified by 'orders';
+create user if not exists 'orders'@'%' identified by 'orders';
 grant all on orders.* to 'orders'@'%';
 
 USE orders;

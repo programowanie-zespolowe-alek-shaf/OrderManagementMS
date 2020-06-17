@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.agh.order.management.dto.OrderDTO;
-import pl.agh.order.management.entity.Order;
+import pl.agh.order.management.dto.OrderResponseDTO;
 import pl.agh.order.management.service.OrderService;
 
 import javax.validation.Valid;
@@ -22,7 +22,7 @@ public class OrderController {
 
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addOrder(@RequestBody @Valid OrderDTO order) {
-        Order createdOrder = orderService.add(order);
+        OrderResponseDTO createdOrder = orderService.add(order);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdOrder.getId())
@@ -33,13 +33,16 @@ public class OrderController {
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllOrders(@RequestParam int limit, @RequestParam int offset) {
-        return ResponseEntity.ok(orderService.findAll(limit, offset));
+    public ResponseEntity<?> getAllOrders(@RequestParam int limit,
+                                          @RequestParam int offset,
+                                          @RequestParam(required = false) String username
+    ) {
+        return ResponseEntity.ok(orderService.findAll(limit, offset, username));
     }
 
     @GetMapping(value = "{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getOrder(@PathVariable("id") Long id) {
-        Order order = orderService.find(id);
+        OrderResponseDTO order = orderService.find(id);
         if (order == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -49,7 +52,7 @@ public class OrderController {
 
     @PutMapping(value = "{id}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateOrder(@PathVariable("id") Long id, @RequestBody @Valid OrderDTO orderDTO) {
-        Order updatedOrder = orderService.update(id, orderDTO);
+        OrderResponseDTO updatedOrder = orderService.update(id, orderDTO);
         if (updatedOrder == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -59,7 +62,7 @@ public class OrderController {
 
     @DeleteMapping(value = "{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
-        Order deletedOrder = orderService.delete(id);
+        OrderResponseDTO deletedOrder = orderService.delete(id);
         if (deletedOrder == null) {
             return ResponseEntity.notFound().build();
         } else {
