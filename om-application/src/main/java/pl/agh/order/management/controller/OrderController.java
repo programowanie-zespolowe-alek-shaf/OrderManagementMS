@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.agh.order.management.dto.OrderDTO;
+import pl.agh.order.management.dto.OrderPutDTO;
 import pl.agh.order.management.dto.OrderResponseDTO;
 import pl.agh.order.management.service.OrderService;
 
@@ -51,7 +52,7 @@ public class OrderController {
     }
 
     @PutMapping(value = "{id}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateOrder(@PathVariable("id") Long id, @RequestBody @Valid OrderDTO orderDTO) {
+    public ResponseEntity<?> updateOrder(@PathVariable("id") Long id, @RequestBody @Valid OrderPutDTO orderDTO) {
         OrderResponseDTO updatedOrder = orderService.update(id, orderDTO);
         if (updatedOrder == null) {
             return ResponseEntity.notFound().build();

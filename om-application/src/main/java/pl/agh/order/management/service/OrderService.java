@@ -3,10 +3,7 @@ package pl.agh.order.management.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import pl.agh.order.management.dto.ListResponse;
-import pl.agh.order.management.dto.ListUtil;
-import pl.agh.order.management.dto.OrderDTO;
-import pl.agh.order.management.dto.OrderResponseDTO;
+import pl.agh.order.management.dto.*;
 import pl.agh.order.management.entity.Order;
 import pl.agh.order.management.repository.OrderRepository;
 import pl.agh.order.management.rest.MicroService;
@@ -42,7 +39,7 @@ public class OrderService {
         return getOrderResponse(orderRepository.save(order.toEntity()));
     }
 
-    public OrderResponseDTO update(Long id, OrderDTO orderDTO) {
+    public OrderResponseDTO update(Long id, OrderPutDTO orderDTO) {
         if (!orderRepository.existsById(id)) {
             return null;
         }
